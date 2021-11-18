@@ -1,0 +1,13 @@
+thailand,laos
+thailand,malaysia
+laos,vietnam
+laos,myanmar
+vietnam,china
+china,nepal
+china,mongolia
+china,kyrgyzstan
+china,tajikistan
+nepal,india
+india,pakistan
+pakistan,iran
+pakistan,afghanistan
