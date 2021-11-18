@@ -11,7 +11,7 @@ En la parte de abajo, podremos encontrar la estructura con la que este programa 
 Para el uso de grafos de este proyecto decidí utilizar una lista de adyacencia para el guardado y la manipulación de los datos.
 Decidí hacer esto, debido a la forma en la que yo busco desplegar los datos y como es que se fcilitaría manejarlos. Es decir, al simular el despliegue de una ruta, no necesito utilizar una matriz, pues solo con tener los elementos dentro de otros (dependiendo de sus conexiones), se podría recorrer y mostrar de manera más sencilla.
 
-En estos grafos se van encontrar países de los archivos *europe_places.txt* y *asia_places.txt*, que contienen parejas de países que son adyacientes, según su ubicación geográfica. (Estos se agregan al grafo en cuanto se inicia el programa).
+En estos grafos se van encontrar países de los archivos *places_europe.txt* y *places_asia.txt*, que contienen parejas de países que son adyacientes, según su ubicación geográfica. (Estos se agregan al grafo en cuanto se inicia el programa).
 Así mismo, se podrán acomodar y hacer consultas a éstas, con el fin de obtener las rutas de un país a otro.
 
 #### Usa un algoritmo de búsqueda en grafos adecuado para resolver un problema.
