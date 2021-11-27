@@ -27,6 +27,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <set>
 #include <stack>
 #include <list>
 #include <algorithm>
@@ -40,25 +42,27 @@ class Graph {
         int edgesList;
         int nodes;
         vector<int> *adjList;
+        unordered_map<string,int> map;
     
         // Métodos privados
-        string findKeyByValue(unordered_map<string,int>&, int);
+        string findKeyByValue(int);
     public:
         // Constructores
         Graph(int);
     
         // Métodos públicos para graph list
+        void createGraph(ifstream&);
         void addEdgeAdjList(int, int);
-        string printAdjList(unordered_map<string,int>&);
+        string printAdjList();
         void sortAdjList();
         
-        string DFS(unordered_map<string,int>&, int, int);
-        void dfsHelper(unordered_map<string,int>&, int, int, stack<int>&,
-                       list<int>&, vector<vector<int>>&, stringstream&);
-        void printPath(unordered_map<string,int>&, vector<vector<int>>&, int,
-                       int, stringstream&);
-        void printVisited(unordered_map<string,int>&, list<int>, stringstream&);
+        string DFS(string, string, int);
+        void dfsHelper(int, int, stack<int>&, list<int>&, vector<vector<int>>&,
+                       stringstream&, int);
+        void printPath(vector<vector<int>>&, int, int, stringstream&);
+        void printVisited(list<int>, stringstream&);
         bool contains(list<int>, int);
+        set<string> getCountries();
 };
 
 /*
@@ -68,10 +72,52 @@ class Graph {
  * Constructor para un objeto Graph
  *
  */
-Graph::Graph(int _nodes) {
+Graph::Graph(int _nodes): map() {
     nodes = _nodes;
     edgesList = 0;
     adjList = new vector<int>[nodes];
+}
+
+/*
+ * @param ifstream&
+ * @return
+ *
+ * Crea el grafo (con lista de adyacencia), usando los datos del archivo pasado en
+ * el método.
+ *
+ * En el grafo se utilizan los valores de un hash (int), que son obtenidos con un
+ * "unordered_map", que contiene como llave el nombre de cada país y como valor un
+ * id único.
+ *
+ */
+void Graph::createGraph(ifstream &file) {
+    string country1, country2;
+    int i = 0, k1, k2;
+    
+    while (!file.eof()) {
+        getline(file, country1, ',');
+        getline(file, country2, '\n');
+        if (country1.length() == 0 || country2.length() == 0)
+            break;
+        
+        if (map.find(country1) == map.end()){
+            map.insert(make_pair(country1, i));
+            k1 = i;
+            i++;
+        } else {
+            k1 = map[country1];
+        }
+        
+        if (map.find(country2) == map.end()){
+            map.insert(make_pair(country2, i));
+            k2 = i;
+            i++;
+        } else {
+            k2 = map[country2];
+        }
+        
+        addEdgeAdjList(k1, k2);
+    }
 }
 
 /*
@@ -95,14 +141,14 @@ void Graph::addEdgeAdjList(int u, int v){
  * Imprime el grafo (la lista)
  *
  */
-string Graph::printAdjList(unordered_map<string,int> &map){
+string Graph::printAdjList(){
     sortAdjList();
     stringstream aux;
     
     for (int i = 0; i < nodes; i++){
-        aux << "* " << findKeyByValue(map, i) << ":\n\t";
+        aux << "* " << findKeyByValue(i) << ":\n\t";
         for (int j = 0; j < adjList[i].size(); j++) {
-                aux << " -> " << findKeyByValue(map, adjList[i][j]);
+                aux << " -> " << findKeyByValue(adjList[i][j]);
         }
         aux << "\n";
     }
@@ -133,8 +179,13 @@ void Graph::sortAdjList() {
  * hasta el nodo_meta.
  *
  */
-string Graph::DFS(unordered_map<string,int> &map, int nodo_inicial,
-                  int nodo_meta) {
+string Graph::DFS(string pos_inicial, string pos_final, int op_route) {
+    if (map.find(pos_inicial) == map.end() || map.find(pos_final) == map.end()) {
+        return ("Hubo un error con los países ingresados.");
+    }
+    
+    int nodo_inicial = map[pos_inicial];
+    int nodo_meta = map[pos_final];
     stringstream aux;
     
     stack<int> my_stack;
@@ -142,8 +193,10 @@ string Graph::DFS(unordered_map<string,int> &map, int nodo_inicial,
     vector<vector<int>> paths(nodes, vector<int>(1, -1));
     my_stack.push(nodo_inicial);
     
-    dfsHelper(map, nodo_inicial, nodo_meta, my_stack, visited, paths, aux);
-    printPath(map, paths, nodo_inicial, nodo_meta, aux);
+    dfsHelper(nodo_inicial, nodo_meta, my_stack, visited, paths, aux, op_route);
+    
+    if (op_route == 1 || op_route == 3)
+        printPath(paths, nodo_inicial, nodo_meta, aux);
     
     return aux.str();
 }
@@ -158,12 +211,13 @@ string Graph::DFS(unordered_map<string,int> &map, int nodo_inicial,
  * fin de imprimirlos posteriormente.
  *
  */
-void Graph::dfsHelper(unordered_map<string,int> &map, int current_node,
-                      int nodo_meta, stack<int> &my_stack, list<int> &visited,
-                      vector<vector<int>> &paths, stringstream &aux) {
+void Graph::dfsHelper(int current_node, int nodo_meta, stack<int> &my_stack,
+                      list<int> &visited, vector<vector<int>> &paths,
+                      stringstream &aux, int op_route) {
     
     if (current_node == nodo_meta) {
-        printVisited(map, visited, aux);
+        if (op_route == 2 || op_route == 3)
+            printVisited(visited, aux);
     } else if (my_stack.empty()) {
         aux << "";
     } else {
@@ -176,7 +230,7 @@ void Graph::dfsHelper(unordered_map<string,int> &map, int current_node,
                 paths[adjList[current_node][i]][0] = current_node;
             }
         }
-        dfsHelper(map, current_node, nodo_meta, my_stack, visited, paths, aux);
+        dfsHelper(current_node, nodo_meta, my_stack, visited, paths,aux,op_route);
     }
 }
 
@@ -188,13 +242,14 @@ void Graph::dfsHelper(unordered_map<string,int> &map, int current_node,
  * el camino del nodo_inicial al nodo_meta.
  *
  */
-void Graph::printVisited(unordered_map<string,int> &map, list<int> visited,
-                         stringstream &aux) {
-    aux << "Países analizados para encontrar el camino:\n\t";
+void Graph::printVisited(list<int> visited, stringstream &aux) {
+    aux << "Ruta con la mayor cantidad de países (conectados por frontera), ";
+    aux << "posibles a visitar:\n\t";
     while (!visited.empty()){
-        aux << " -> " << findKeyByValue(map, visited.front());
+        aux << " -> " << findKeyByValue(visited.front());
         visited.pop_front();
     }
+    aux << "\n";
 }
 
 /*
@@ -204,9 +259,9 @@ void Graph::printVisited(unordered_map<string,int> &map, list<int> visited,
  * Imprime el path del recorrido desde el nodo_incial, hasta el nodo_meta.
  *
  */
-void Graph::printPath(unordered_map<string,int> &map, vector<vector <int>> &path,
-                      int nodo_inicial, int nodo_meta, stringstream &aux) {
-    aux << "\nRuta más corta:\n\t";
+void Graph::printPath(vector<vector <int>> &path, int nodo_inicial, int nodo_meta,
+                      stringstream &aux) {
+    aux << "Ruta más corta:\n\t";
     int node = path[nodo_meta][0];
     
     stack<int> reverse;
@@ -219,7 +274,7 @@ void Graph::printPath(unordered_map<string,int> &map, vector<vector <int>> &path
     
     reverse.push(nodo_inicial);
     while (!reverse.empty()) {
-        aux << " -> " << findKeyByValue(map, reverse.top());
+        aux << " -> " << findKeyByValue(reverse.top());
         reverse.pop();
     }
 }
@@ -246,12 +301,36 @@ bool Graph::contains(list<int> lst, int node) {
  * para imprimirlo.
  *
  */
-string Graph::findKeyByValue(unordered_map<string,int> &map, int val) {
+string Graph::findKeyByValue(int val) {
     for (auto it = map.begin(); it != map.end(); ++it) {
         if (it->second == val)
             return it->first;
     }
     return ""; // Para que no haya error
+}
+
+/*
+ * @param
+ * @return set<string>
+ *
+ * Recorre el grafo y va guardando los países en un set, con el fin de tener una
+ * lista de ellos, pero de manera única, para enseñarle al usuario la lista de
+ * países que están disponibles para elegir en el programa.
+ *
+ */
+set<string> Graph::getCountries() {
+    set<string> countries_set;
+    
+    for (int i = 0; i < nodes; i++){
+        for (int j = 0; j < adjList[i].size(); j++) {
+            int country_id = adjList[i][j];
+            string country = findKeyByValue(country_id);
+            if (!countries_set.count(country))
+                countries_set.insert(country);
+        }
+    }
+    
+    return countries_set;
 }
 
 #endif /* Graph_h */
