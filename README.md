@@ -37,10 +37,61 @@ Así mismo, para darle una mejor presentación, quería mostrar los países en o
 
 #### Describe cada algoritmo de la estructura (inserción, consulta, etc...).
 - Como está basado en la implementación de un bst, el algoritmo de inserción en un set tiene una complejidad en el peor de los casos de *O(log(n))*, donde *n* es el tamaño de este. (Se mantiene balanceado por el orden que lleva).
-- Para consultar si un elemento se encuentra dentro o no de la estructura (función "count()"), se busca de igual manera usando la lógica de un bst y regresa un verdadero o falso dependiendo de lo encontrado. Debido a esto, la complejidad de este algoritmo es de *O(log(n))*.
-- Vaciar un set, requiere una iteración completa sobre este, por lo que tiene una complejidad de *O(n)*.
-- Obtener su valor
 
+> Inserta: 1
+> 
+> Inserta: 5
+> 
+> Inserta: 3
+> 
+> Inserta: 6
+> 
+> Inserta: 2
+> 
+> Set: 1, 2, 3, 5, 6
+
+
+- Para consultar si un elemento se encuentra dentro o no de la estructura (función "count()"), se busca de igual manera usando la lógica de un bst y regresa un verdadero o falso dependiendo de lo encontrado. Debido a esto, la complejidad de este algoritmo es de *O(log(n))*.
+
+> Set: 1, 2, 4, 6, 7, 8
+> 
+> Count: 6
+> 
+> Salida: 1
+> 
+> Count: 3
+> 
+> Salida 0
+
+- Vaciar un set, requiere una iteración completa sobre este, por lo que tiene una complejidad de *O(n)*.
+
+> Set: 1, 2, 4, 6, 7, 8
+> 
+> *Vaciar set*
+> 
+> Set: 
+
+- Eliminar uno o varios elementos de un set, es una operación que tarda *O(n)*, debido a que en el algoritmo, se tiene que ir iterando sobre el set y comprobar si el valor de iterador en el que vamos, es igual al que queremos borrar. En dado caso, se elimina y se actualiza el iterador en caso de que hayan más elementos a borrar. (*n* se refiere a la cantidad de elementos a eliminar). Ejemplo:
+
+> Set: 1, 2, 3, 4, 5, 6, 7, 8, 9
+> 
+> Elimina conjunto de elementos (2, 3, 5, 7) *-> los primos*
+> 
+> Set: 2, 3, 5, 7
+> 
+
+- Igual que la función de eliminar, para el "find()", hay que usar un iterador para buscar el valor y regresarlo en caso de que se requiera. El tiempo de complejidad aquí es de *O(log(n))* debido a que en el *set*, a diferencia del *unordered_set*, los elementos ya se encuentran ordenados.
+La gran diferencia entre la función "count()" y "find()" es que *find*, regresa el iterador apuntando al *.end()* o al elemento a buscar y *count*, regresa 1 o 0 si el valor se encuentra en el set o no.
+
+> Entrada 1, 2, 3, 4, 5, 6
+> 
+> A buscar con iterador: 4
+> 
+> Iterador apunta a la posición de 4 porque si se encuentra en el set.
+> 
+> A buscar con iterador(2): 8
+> 
+> Iterador apunta a end() porque 8 no se encuentra en el set.
 
 ## SICT0301B: Evalúa los componentes
 
