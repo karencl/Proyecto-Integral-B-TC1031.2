@@ -96,7 +96,9 @@ La gran diferencia entre la función "count()" y "find()" es que *find*, regresa
 ## SICT0301B: Evalúa los componentes
 
 #### Presenta Casos de prueba para todas las funciones y procedimientos del programa.
--> pendiente
+Se agregó un "mainDePruebas.cpp", que contiene los llamados de las funciones en general de todo el programa, con el fin de poder visializar el funcionamiento de éste.
+
+**NOTA: Para poder utilizar este archivo, se tiene que descargar en vez del "main.cpp" o bien, copiar el código que está en éste y copiarlo en el archivo que ya se tenga del main.**
 
 #### Hace un análisis de complejidad (en el pero de los casos) correcto y completo para todo el programa y sus componentes.
 - **Crear el grafo a partir de los datos en los archivos .txt:**
@@ -154,5 +156,5 @@ Entonces... demás del archivo *.cpp* que contiene los casos de prueba, tenemos 
 - Visualizar el grafo de los países del contienente europeo.
 - Visualizar el grafo de los países del contienente asiático.
 - Consultar la ruta más corta (óptima), para un viaje de un país de origen a uno de destino. 
-- Consultar la ruta con la mayor cantidad posible de países a visitar (dependiendo de sus conexiones entre fronteras), para un viaje de un país de origen a uno de destino.
+- Consultar la ruta con la mayor cantidad posible de países a visitar (dependiendo de sus conexiones entre fronteras), para un viaje de un país de origen a uno de destino, siguiendo la ruta óptima para el viaje.
 - Consultar ambas opciones de rutas anteriores, para un viaje de un país de origen a uno de destino.
