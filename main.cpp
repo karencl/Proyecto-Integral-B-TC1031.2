@@ -117,6 +117,7 @@ int main() {
         }
         
         // Busca ruta con mayor cantidad de países posibles a visitar en un viaje
+        // siguiendo la ruta óptima
         else if (option == 6) {
             
             // Solo imorime "visited" -> opción 2 de ruta
@@ -181,7 +182,8 @@ void showMenu() {
     cout<<"4) Muestra grafo de Asia"<<endl;
     cout<<"5) Busca la ruta más corta de viaje entre dos puntos"<<endl;
     cout<<"6) Busca la ruta con mayor cantidad de países posibles a visitar (que";
-    cout<<" estén conectados por frontera) en un viaje entre dos puntos"<<endl;
+    cout<<" estén conectados por frontera) en un viaje entre dos puntos,";
+    cout<<" siguiendo la ruta óptima para éste."<<endl;
     cout<<"7) Muestra ambas opciones anteriores para un viaje"<<endl;
     cout<<"8) Salir"<<endl;
     cout<< "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"<<endl;

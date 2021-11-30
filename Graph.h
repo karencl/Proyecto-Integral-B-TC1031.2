@@ -244,8 +244,8 @@ void Graph::dfsHelper(int current_node, int nodo_meta, stack<int> &my_stack,
  */
 void Graph::printVisited(list<int> visited, stringstream &aux) {
     aux << "Ruta con la mayor cantidad de países (conectados por frontera), ";
-    aux << "posibles a visitar:\n\t";
-    while (!visited.empty()){
+    aux << "posibles a visitar (siguiendo la ruta óptima):\n\t";
+    while (!visited.empty()) {
         aux << " -> " << findKeyByValue(visited.front());
         visited.pop_front();
     }
