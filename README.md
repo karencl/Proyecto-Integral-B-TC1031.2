@@ -29,6 +29,8 @@ El hash implementado en mi programa, fue utilizando la librería *<unordered_map
 
 ## SEG0702A Tecnologías de Vanguardia
 
+**NOTA: la información obtenida para la investigación de la nueva estructra (*set*), fue obtenida de: GeeksforGeeks. (2021, November 28). Set in C++ Standard Template Library (STL). Retrieved December 1, 2021, from https://www.geeksforgeeks.org/set-in-cpp-stl/.**
+
 #### Investiga e implementa un algoritmo o una estructura de datos que no se vió durante el curso.
 Como estructura de datos extra (no vista durante el curso), elegí utilizar un *set* usando la librería estándar de c++.
 La razón principal por la que elegí este tipo de estructura, es porque necesitaba tener todos los países disponibles para mostrar al usuario, pero solamente 1 vez. Y como la función principal del *set* es funcionar como contenedor de elementos únicos, era exactamente lo que ocupaba para guardar estos, al recorrer el grafo completamente, sin preocuparme por tener que lidiar con valores que se repitieran.
