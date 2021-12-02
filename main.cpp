@@ -68,7 +68,7 @@ int main() {
         
         // Lista de países dosponibles para viajar (europa)
         if (option == 1) {
-            cout << "\nPaíses disponibles para viajes en Europa (en orden";
+            cout << "\nPaíses disponibles para viajes en Europa (en orden ";
             cout << "alfabético):" << endl;
             
             aux_set = europe.getCountries();
@@ -77,7 +77,7 @@ int main() {
         
         // Lista de países disponibles para viajar (asia)
         else if (option == 2) {
-            cout << "\nPaíses disponibles para viajes en Asia (en orden";
+            cout << "\nPaíses disponibles para viajes en Asia (en orden ";
             cout << "alfabético):" << endl;
             
             aux_set = asia.getCountries();
